@@ -15,11 +15,20 @@ public class Day3 {
     public void processFile(String filename) {
         Optional<List<String>> lines = Util.loadFile(filename);
         if(lines.isPresent()) {
-            int totalScore = 0;
+            int totalScore1 = 0;
+            int totalScore2 = 0;
+            int linesCaptured = 0;
+            String[] linesArray = new String[3];
             for(String line : lines.get()) {
-                totalScore += calculateScore1(line);
+                totalScore1 += calculateScore1(line);
+                linesArray[linesCaptured++] = line;
+                if (linesCaptured == 3) {
+                    totalScore2 += calculateScore2(linesArray[0], linesArray[1], linesArray[2]);
+                    linesCaptured = 0;
+                }
             }
-            log.info("Total score 1: " + totalScore);
+            log.info("Total score 1: " + totalScore1);
+            log.info("Total score 2: " + totalScore2);
         }
     }
 
@@ -34,6 +43,20 @@ public class Day3 {
                 break;
             }
         }
+        return getScore(commonItem);
+    }
+
+    public int calculateScore2(String rucksack1, String rucksack2, String rucksack3) {
+        char commonItem = '?';
+        for(char c : rucksack1.toCharArray()) {
+            if (rucksack2.indexOf(c) >= 0 && rucksack3.indexOf(c) >= 0) {
+                commonItem = c;
+            }
+        }
+        return getScore(commonItem);
+    }
+
+    private int getScore(char commonItem) {
         int score = 0;
         if (commonItem >= 'A' && commonItem <= 'Z') {
             score = commonItem - 38;

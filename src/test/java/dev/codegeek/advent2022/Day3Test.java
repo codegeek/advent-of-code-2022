@@ -23,4 +23,10 @@ class Day3Test {
         assertEquals(20, day3.calculateScore1(TEST_LINES[4]));
         assertEquals(19, day3.calculateScore1(TEST_LINES[5]));
     }
+
+    @Test
+    void testCalculateScore2() {
+        assertEquals(18, day3.calculateScore2(TEST_LINES[0], TEST_LINES[1], TEST_LINES[2]));
+        assertEquals(52, day3.calculateScore2(TEST_LINES[3], TEST_LINES[4], TEST_LINES[5]));
+    }
 }
