@@ -17,8 +17,10 @@ public class Day4 {
         Optional<List<String>> lines = Util.loadFile(filename);
         if (lines.isPresent()) {
             int totalScore1 = calculateScore1(lines.get());
+            int totalScore2 = calculateScore2(lines.get());
 
             log.info("Total score 1: " + totalScore1);
+            log.info("Total score 2: " + totalScore2);
         }
     }
 
@@ -26,16 +28,33 @@ public class Day4 {
         int totalScore = 0;
         for(String line : lines) {
             var sections = line.split(",");
-            var firstRange = sections[0].split("-");
-            var firstSection = IntStream.range(Integer.parseInt(firstRange[0]), Integer.parseInt(firstRange[1]) + 1).toArray();
-            var secondRange = sections[1].split("-");
-            var secondSection = IntStream.range(Integer.parseInt(secondRange[0]), Integer.parseInt(secondRange[1]) + 1).toArray();
+            var firstSection = getSectionArray(sections[0]);
+            var secondSection = getSectionArray(sections[1]);
 
             if (isSubArray(firstSection, secondSection) || isSubArray(secondSection, firstSection)) {
                 totalScore++;
             }
         }
         return totalScore;
+    }
+
+    public int calculateScore2(List<String> lines) {
+        int totalScore = 0;
+        for(String line : lines) {
+            var sections = line.split(",");
+            var firstSection = getSectionArray(sections[0]);
+            var secondSection = getSectionArray(sections[1]);
+
+            if(isOverlap(firstSection, secondSection)) {
+                totalScore++;
+            }
+        }
+        return totalScore;
+    }
+
+    private int[] getSectionArray(String section) {
+        var range = section.split("-");
+        return IntStream.range(Integer.parseInt(range[0]), Integer.parseInt(range[1]) + 1).toArray();
     }
 
     private boolean isSubArray(final int[] first, final int[] second) {
@@ -51,6 +70,17 @@ public class Day4 {
             } else {
                 i = i - j + 1;
                 j = 0;
+            }
+        }
+        return false;
+    }
+
+    private boolean isOverlap(final int[] first, final int[] second) {
+        for (int j : first) {
+            for (int k : second) {
+                if (j == k) {
+                    return true;
+                }
             }
         }
         return false;

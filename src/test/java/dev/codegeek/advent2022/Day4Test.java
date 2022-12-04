@@ -19,4 +19,9 @@ public class Day4Test {
     void testCalculateScore1() {
         assertEquals(2, day4.calculateScore1(TEST_LINES));
     }
+
+    @Test
+    void testCalculateScore2() {
+        assertEquals(4, day4.calculateScore2(TEST_LINES));
+    }
 }
